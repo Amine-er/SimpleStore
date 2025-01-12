@@ -8,11 +8,10 @@ import com.errabi.productmgt.web.dtos.ResponseInfo;
 import com.errabi.productmgt.web.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.errabi.productmgt.utils.ProductConstant.SYSTEM_ERROR_DESCRIPTION;
 import static com.errabi.productmgt.web.mapper.ProductMapper.buildSuccessResponse;
@@ -60,10 +59,13 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseInfo getAllProducts() {
+    public ResponseInfo getAllProducts(Pageable pageable) {
         log.info("Fetching all products");
-        List<Product> productList = productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        List<ProductDTO> productDtos = productMapper.toDtos(productList);
-        return buildSuccessResponse(productDtos);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        if(!productPage.isEmpty()){
+            return buildSuccessResponse(productPage.map(productMapper::toDto));
+        }else{
+            return buildSuccessResponse(Page.empty());
+        }
     }
 }

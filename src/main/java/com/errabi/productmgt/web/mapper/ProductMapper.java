@@ -6,8 +6,7 @@ import com.errabi.productmgt.web.dtos.ResponseInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import static com.errabi.productmgt.utils.ProductConstant.SUCCESS_CODE;
 import static com.errabi.productmgt.utils.ProductConstant.SUCCESS_CODE_DESCRIPTION;
@@ -17,7 +16,6 @@ public interface ProductMapper {
 
     Product toEntity(ProductDTO productDto);
     ProductDTO toDto(Product product);
-    List<ProductDTO> toDtos(List<Product> products);
     void updateFromDto(ProductDTO productDto, @MappingTarget Product product);
 
     static ResponseInfo buildSuccessResponse(ProductDTO productDTO){
@@ -28,11 +26,11 @@ public interface ProductMapper {
                 .build();
     }
 
-    static ResponseInfo buildSuccessResponse(List<ProductDTO> productDtos){
+    static ResponseInfo buildSuccessResponse(Page<ProductDTO> products){
         return ResponseInfo.builder()
             .errorCode(SUCCESS_CODE)
             .errorDescription(SUCCESS_CODE_DESCRIPTION)
-            .products(productDtos)
+            .productPage(products)
             .build();
     }
 

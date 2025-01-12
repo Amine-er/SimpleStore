@@ -3,9 +3,9 @@ package com.errabi.productmgt.web.dtos;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
@@ -17,7 +17,7 @@ public class ResponseInfo {
 
     //Data output optionals
     private ProductDTO product;
-    private List<ProductDTO> products;
+    private Page<ProductDTO> productPage;
 
     private final LocalDateTime timestamp = LocalDateTime.now();
 }
