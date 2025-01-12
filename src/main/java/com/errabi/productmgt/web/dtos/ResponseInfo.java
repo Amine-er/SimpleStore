@@ -12,12 +12,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseInfo {
     //Generic
-    private int status;
-    private String message;
-
-    //For pagination
-    private Integer totalPages;
-    private Long totalElements;
+    private String errorCode;
+    private String errorDescription;
 
     //Data output optionals
     private ProductDTO product;

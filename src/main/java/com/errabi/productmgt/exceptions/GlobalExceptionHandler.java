@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import static com.errabi.productmgt.utils.ProductConstant.SYSTEM_ERROR;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -13,17 +15,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseInfo> handleAllExceptions(Exception ex) {
         ResponseInfo response = ResponseInfo.builder()
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(ex.getMessage())
+                .errorCode(SYSTEM_ERROR)
+                .errorDescription(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ResponseInfo> handleNotFoundException(NotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ResponseInfo> handleNotFoundException(EntityNotFoundException ex) {
         ResponseInfo response = ResponseInfo.builder()
-                .status(HttpStatus.NOT_FOUND.value())
-                .message(ex.getMessage())
+                .errorCode(SYSTEM_ERROR)
+                .errorDescription(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -31,8 +33,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NameValueRequiredException.class)
     public ResponseEntity<ResponseInfo> handleNameValueRequiredException(NameValueRequiredException ex) {
         ResponseInfo response = ResponseInfo.builder()
-                .status(HttpStatus.BAD_REQUEST.value())
-                .message(ex.getMessage())
+                .errorCode(SYSTEM_ERROR)
+                .errorDescription(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

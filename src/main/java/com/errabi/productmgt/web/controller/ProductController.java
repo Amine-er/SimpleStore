@@ -5,6 +5,7 @@ import com.errabi.productmgt.web.dtos.ProductDTO;
 import com.errabi.productmgt.web.dtos.ResponseInfo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,36 +15,40 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final ProductService productService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<ResponseInfo> saveProduct(@RequestBody @Valid ProductDTO productDto) {
         ResponseInfo response = productService.saveProduct(productDto);
-        return ResponseEntity
-                .status(response.getStatus())
-                .body(response);
+        return ResponseEntity.ok(response);
+
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseInfo> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDto) {
-        productDto.setId(id); // Ensure the DTO has the correct ID
+    public ResponseEntity<ResponseInfo> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductDTO productDto) {
+        productDto.setId(id);
         ResponseInfo response = productService.updateProduct(productDto);
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseInfo> deleteProduct(@PathVariable Long id) {
         ResponseInfo response = productService.deleteProduct(id);
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public ResponseEntity<ResponseInfo> getProductById(@PathVariable Long id) {
         ResponseInfo response = productService.getProductById(id);
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseEntity<ResponseInfo> getAllProducts() {
         ResponseInfo response = productService.getAllProducts();
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 }
