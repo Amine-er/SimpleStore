@@ -19,7 +19,7 @@ public class BaseControllerIT {
     public void setup() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(wac)
-                .build(); // Removed springSecurity()
+                .build();
     }
 
     protected static String asJsonString(final Object obj) {

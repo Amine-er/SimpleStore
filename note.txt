@@ -1,5 +1,0 @@
- rename project to  product-service
- add jib plugin
- create docker image
- publish to docker hub
- add unit test junit qnd mockito
