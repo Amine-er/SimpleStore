@@ -21,6 +21,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(TechnicalException.class)
+    public ResponseEntity<ResponseInfo> handleTechnicalException(TechnicalException ex) {
+        ResponseInfo response = ResponseInfo.builder()
+                .errorCode(SYSTEM_ERROR)
+                .errorDescription(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ResponseInfo> handleNotFoundException(EntityNotFoundException ex) {
         ResponseInfo response = ResponseInfo.builder()

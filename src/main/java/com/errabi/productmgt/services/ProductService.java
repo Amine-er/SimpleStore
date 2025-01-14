@@ -2,7 +2,7 @@ package com.errabi.productmgt.services;
 
 import com.errabi.productmgt.entities.Product;
 import com.errabi.productmgt.exceptions.EntityNotFoundException;
-import com.errabi.productmgt.repositories.ProductRepository;
+import com.errabi.productmgt.repositories.SimpleProductRepository;
 import com.errabi.productmgt.web.dtos.ProductDTO;
 import com.errabi.productmgt.web.dtos.ResponseInfo;
 import com.errabi.productmgt.web.mapper.ProductMapper;
@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.errabi.productmgt.utils.ProductConstant.SYSTEM_ERROR_DESCRIPTION;
 import static com.errabi.productmgt.web.mapper.ProductMapper.buildSuccessResponse;
@@ -20,10 +19,9 @@ import static com.errabi.productmgt.web.mapper.ProductMapper.buildSuccessRespons
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-    private final ProductRepository productRepository;
+    private final SimpleProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @Transactional
     public ResponseInfo saveProduct(ProductDTO productDto) {
         log.info("Saving product {}", productDto);
         Product productToSave = productMapper.toEntity(productDto);
@@ -31,17 +29,15 @@ public class ProductService {
        return buildSuccessResponse(productDto);
     }
 
-    @Transactional
     public ResponseInfo updateProduct(ProductDTO productDto) {
         log.info("Updating product {}", productDto);
         Product productToUpdate = productRepository.findById(productDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException(SYSTEM_ERROR_DESCRIPTION));
         productMapper.updateFromDto(productDto, productToUpdate);
-        productRepository.save(productToUpdate);
+        productRepository.update(productToUpdate);
         return buildSuccessResponse();
     }
 
-    @Transactional
     public ResponseInfo deleteProduct(Long id) {
         log.info("Deleting product {}", id);
         Product productToDelete = productRepository.findById(id)
@@ -50,7 +46,6 @@ public class ProductService {
         return buildSuccessResponse();
     }
 
-    @Transactional(readOnly = true)
     public ResponseInfo getProductById(Long id) {
         log.info("Fetching product {}", id);
         Product product = productRepository.findById(id)
@@ -58,7 +53,6 @@ public class ProductService {
         return buildSuccessResponse(productMapper.toDto(product));
     }
 
-    @Transactional(readOnly = true)
     public ResponseInfo getAllProducts(Pageable pageable) {
         log.info("Fetching all products");
         Page<Product> productPage = productRepository.findAll(pageable);
