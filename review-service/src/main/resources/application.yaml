@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: review-service
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/reviewdb
+
+server:
+  port: 8081
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
