@@ -43,7 +43,6 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -52,13 +51,14 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.6.3'
     implementation 'org.mapstruct:mapstruct-processor:1.6.3'
     implementation 'org.postgresql:postgresql:42.7.4'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    // runtimeOnly 'com.h2database:h2'
-
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springdoc:springdoc-openapi-starter-webflux-api:2.8.3'
+    testImplementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

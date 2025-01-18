@@ -19,11 +19,11 @@ spring:
           autocommit: false
         format_sql: true
 
-  servlet:
-    multipart:
-      max-file-size: 2GB
-      max-request-size: 2GB
-
 server:
   port: 8080
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
