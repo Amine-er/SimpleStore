@@ -23,5 +23,26 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
 
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: reviewdb
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  review-service:
+    image: med29/review-service
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://user:password@mongodb:27017/reviewdb
+
 volumes:
   postgres_data:
+  mongo_data:

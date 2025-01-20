@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Data
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "products")
-@Data
-@Builder
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,6 @@ public class Product {
     private BigDecimal price;
     private Status status;
     private Category category;
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private final LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -4,7 +4,9 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost:27017/reviewdb
+      uri: mongodb://user:password@localhost:27017/reviewdb?authSource=admin
+      username: user
+      password: password
 
 server:
   port: 8081
