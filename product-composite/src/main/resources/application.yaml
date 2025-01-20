@@ -1,0 +1,7 @@
+product:
+  service:
+    url: http://localhost:8080
+
+review:
+  service:
+    url: http://localhost:8081

@@ -1,3 +1,4 @@
 rootProject.name = 'SimpleStore'
 include 'product-service'
 include 'review-service'
+include 'product-composite'
