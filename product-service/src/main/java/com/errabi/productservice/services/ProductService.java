@@ -46,11 +46,11 @@ public class ProductService {
         buildSuccessResponse();
     }
 
-    public ResponseInfo getProductById(Long id) {
+    public ProductDTO getProductById(Long id) {
         log.info("Fetching product {}", id);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(SYSTEM_ERROR_DESCRIPTION));
-        return buildSuccessResponse(productMapper.toDto(product));
+        return productMapper.toDto(product);
     }
 
     public ResponseInfo getAllProducts(Pageable pageable) {

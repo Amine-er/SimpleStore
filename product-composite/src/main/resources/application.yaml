@@ -5,3 +5,6 @@ product:
 review:
   service:
     url: http://localhost:8081
+
+server:
+  port: 8082

@@ -42,9 +42,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a product by ID", description = "Retrieves a product by ID and returns the response info")
-    public ResponseEntity<ResponseInfo> getProductById(@PathVariable Long id) {
-        ResponseInfo response = productService.getProductById(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+        ProductDTO product = productService.getProductById(id);
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping

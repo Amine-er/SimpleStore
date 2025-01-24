@@ -1,5 +1,6 @@
 package com.errabi.reviewservice.web.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
@@ -25,5 +26,6 @@ public class ReviewDto {
     private String content;
     @Positive(message = "Rating must be a positive value")
     private int rating;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 }

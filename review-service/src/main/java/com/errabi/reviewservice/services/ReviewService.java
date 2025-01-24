@@ -46,13 +46,13 @@ public class ReviewService {
         buildSuccessResponse();
     }
 
-    public ResponseInfo getAllReviewsByProductId(Long productId, Pageable pageable) {
+    public Page<ReviewDto> getAllReviewsByProductId(Long productId, Pageable pageable) {
         log.info("Fetching all reviews by product id {}", productId);
         Page<Review> reviewPage = reviewRepository.findAllByProductId(productId, pageable);
         if (!reviewPage.isEmpty()) {
-            return buildSuccessResponse(reviewPage.map(reviewMapper::toDto));
+            return reviewPage.map(reviewMapper::toDto);
         } else {
-            return buildSuccessResponse(Page.empty());
+            return Page.empty();
         }
     }
 }

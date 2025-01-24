@@ -2,6 +2,7 @@ package com.errabi.productservice.web.dtos;
 
 import com.errabi.productservice.enums.Category;
 import com.errabi.productservice.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.EnumType;
@@ -32,5 +33,6 @@ public class ProductDTO {
     private Status status;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 }

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,12 +43,12 @@ public class ReviewController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/product/{productId}")
     @Operation(summary = "Get all reviews for a product", description = "Retrieves all reviews for a product with pagination and returns the response info")
-    public ResponseEntity<ResponseInfo> getAllReviews(@PathVariable Long productId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
-        ResponseInfo response = reviewService.getAllReviewsByProductId(productId, PageRequest.of(page, pageSize));
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Page<ReviewDto>> getAllReviews(@PathVariable Long productId,
+                                              @RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "10") int size) {
+        Page<ReviewDto> reviewDtos = reviewService.getAllReviewsByProductId(productId, PageRequest.of(page, size));
+        return ResponseEntity.ok(reviewDtos);
     }
 }
