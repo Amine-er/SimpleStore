@@ -1,0 +1,13 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product-composite
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/composite/products/**
+  application:
+    name: api-gateway

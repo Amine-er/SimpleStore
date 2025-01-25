@@ -3,6 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
+    container_name: postgres
     environment:
       POSTGRES_DB: productdb
       POSTGRES_USER: user
@@ -12,19 +13,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  product:
-    image: med29/product-service
-    depends_on:
-      - postgres
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/productdb
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-
   mongodb:
     image: mongo:latest
+    container_name: mongodb
     environment:
       MONGO_INITDB_DATABASE: reviewdb
       MONGO_INITDB_ROOT_USERNAME: user
@@ -34,14 +25,51 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  product-service:
+    image: med29/product-service
+    container_name: product-service
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/productdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+
   review-service:
     image: med29/review-service
+    container_name: review-service
     depends_on:
       - mongodb
     ports:
       - "8081:8081"
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://user:password@mongodb:27017/reviewdb
+
+  product-composite:
+    image: med29/product-composite
+    container_name: product-composite
+    depends_on:
+      - product-service
+      - review-service
+    ports:
+      - "8082:8082"
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:8080
+      REVIEW_SERVICE_URL: http://review-service:8081
+
+  api-gateway:
+    image: med29/api-gateway
+    container_name: api-gateway
+    depends_on:
+      - product-composite
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: product-composite-route
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://product-composite:8082
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/product-composite/**
 
 volumes:
   postgres_data:
